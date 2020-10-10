@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +71,26 @@ namespace VaR
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.ShowDialog();
 
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
+                {
+                    sw.Write("Időszak");
+                    sw.Write(',');
+                    sw.WriteLine("Nyereség");
+                    foreach (Tick t in Ticks)
+                    {
+                        sw.Write(t.Tick_id);
+                        sw.Write(',');
+                        sw.WriteLine(t.Price);
+                    }
+                }
+            }
+        }
     }
 }
