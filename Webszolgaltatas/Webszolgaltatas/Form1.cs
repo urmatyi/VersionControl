@@ -24,6 +24,17 @@ namespace Webszolgaltatas
         {
             InitializeComponent();
 
+            RefreshData();
+
+            
+
+
+        }
+
+        private void RefreshData()
+        {
+            Rates.Clear();
+
             GetExchangeRates();
 
             dataGridView1.DataSource = Rates;
@@ -80,7 +91,23 @@ namespace Webszolgaltatas
             }
         }
 
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
 
-       
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+ 
+        }
     }
 }
