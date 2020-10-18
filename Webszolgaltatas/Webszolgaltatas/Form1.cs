@@ -17,12 +17,23 @@ namespace Webszolgaltatas
     public partial class Form1 : Form
     {
         BindingList<RateData> Rates = new BindingList<RateData>();
-        
-        
+
+
 
         public Form1()
         {
             InitializeComponent();
+
+            RefreshData();
+
+
+
+
+        }
+
+        private void RefreshData()
+        {
+            Rates.Clear();
 
             GetExchangeRates();
 
@@ -80,7 +91,23 @@ namespace Webszolgaltatas
             }
         }
 
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
 
-       
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+
+        }
     }
 }
