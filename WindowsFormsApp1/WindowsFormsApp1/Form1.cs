@@ -14,6 +14,9 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        Random rng = new Random(1234);
+
+
         public Form1()
         {
             InitializeComponent();
