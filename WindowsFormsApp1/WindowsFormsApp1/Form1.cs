@@ -20,6 +20,9 @@ namespace WindowsFormsApp1
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
 
+        List<Person> male = new List<Person>();
+        List<Person> female = new List<Person>();
+
 
         public Form1()
         {
@@ -29,7 +32,11 @@ namespace WindowsFormsApp1
             BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
             DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
 
-            for (int year = 2005; year <= 2024; year++)
+            }
+
+        private void Simulation()
+        {
+            for (int year = 2005; year <= numericUpDown1.Value; year++)
             {
                 for (int j = 0; j < Population.Count; j++)
                 {
@@ -45,9 +52,8 @@ namespace WindowsFormsApp1
                 Console.WriteLine(
                     string.Format("Év: {0}  Fiúk: {1}  Lányok: {2}", year, nbrOfMales, nbrOfFemales));
             }
-
-
         }
+
         public List<Person> GetPopulation(string csvpath)
         {
             List<Person> population = new List<Person>();
@@ -82,7 +88,7 @@ namespace WindowsFormsApp1
                     {
                         Age = int.Parse(line[0]),
                         NbrOfChildren = int.Parse(line[1]),
-                        BirthP = int.Parse(line[2])
+                        BirthP = double.Parse(line[2])
                     });
                 }
             }
@@ -103,7 +109,7 @@ namespace WindowsFormsApp1
                     {
                         Gender = (Gender)Enum.Parse(typeof(Gender), line[0]),
                         Age = int.Parse(line[1]),
-                        DeathP = int.Parse(line[2])
+                        DeathP = double.Parse(line[2])
                     });
                 }
             }
@@ -139,6 +145,44 @@ namespace WindowsFormsApp1
                     Population.Add(newborn);
 
                 }
+            }
+
+            if (person.IsAlive && person.Gender == Gender.Female)
+                female.Add(person);
+
+            if (person.IsAlive && person.Gender == Gender.Male)
+                male.Add(person);
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            male.Clear();
+            female.Clear();
+            richTextBox1.Clear();
+
+
+            Simulation();
+
+            DisplayResults();
+
+        }
+
+        private void DisplayResults()
+        {
+            for (int i = 0; i < (numericUpDown1.Value - 2005); i++)
+            {
+
+                richTextBox1.Text += "Szimulációs év: " + (2005 + i) + "\n" + "\t" + "Fiúk: " + male.Count() + "\n" + "\t" + "Lányok: " + female.Count() + "\n";
+
+            }
+        }
+
+        private void BrowseButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                textBox1.Text = ofd.FileName;
             }
         }
     }
