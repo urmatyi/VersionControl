@@ -28,14 +28,14 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
 
-            Population = GetPopulation(@"C:\Temp\nép.csv");
             BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
             DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
-
-            }
+        }
 
         private void Simulation()
         {
+            Population = GetPopulation(textBox1.Text);
+
             for (int year = 2005; year <= numericUpDown1.Value; year++)
             {
                 for (int j = 0; j < Population.Count; j++)
@@ -119,6 +119,12 @@ namespace WindowsFormsApp1
 
         private void SimStep(int year, Person person)
         {
+            if (person.IsAlive && person.Gender == Gender.Female)
+                female.Add(person);
+
+            if (person.IsAlive && person.Gender == Gender.Male)
+                male.Add(person);
+
             if (!person.IsAlive) return;
 
             byte age = (byte)(year - person.BirthYear);
@@ -127,8 +133,10 @@ namespace WindowsFormsApp1
                              where x.Gender == person.Gender && x.Age == age
                              select x.DeathP).FirstOrDefault();
 
-            if (rng.NextDouble() <= pDeath)
-                person.IsAlive = false;
+            double a = rng.NextDouble();
+            if (a <= pDeath)
+            { 
+                person.IsAlive = false; }
 
             if (person.IsAlive && person.Gender == Gender.Female)
             {
@@ -147,11 +155,7 @@ namespace WindowsFormsApp1
                 }
             }
 
-            if (person.IsAlive && person.Gender == Gender.Female)
-                female.Add(person);
-
-            if (person.IsAlive && person.Gender == Gender.Male)
-                male.Add(person);
+            
         }
 
         private void StartButton_Click(object sender, EventArgs e)
