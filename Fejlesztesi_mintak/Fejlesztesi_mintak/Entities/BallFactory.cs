@@ -8,9 +8,9 @@ namespace Fejlesztesi_mintak.Entities
 {
     public class BallFactory
     {
-        public Toy CreateNew()
+        public Ball CreateNew()
         {
-            return new Toy();
+            return new Ball();
         }
     }
 }
