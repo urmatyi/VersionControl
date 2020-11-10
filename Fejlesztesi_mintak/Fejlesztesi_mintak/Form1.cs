@@ -13,7 +13,7 @@ namespace Fejlesztesi_mintak
 {
     public partial class Form1 : Form
     {
-        private List<Ball> _balls = new List<Ball>();
+        private List<Toy> _balls = new List<Toy>();
 
         private BallFactory _factory;
         public BallFactory Factory
